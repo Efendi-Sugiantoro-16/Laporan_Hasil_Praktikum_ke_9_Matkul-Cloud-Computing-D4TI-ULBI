@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Hasil Praktikum ke 9 - Cloud Computing</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        :root {
+            --primary: #1e40af;
+            --primary-light: #3b82f6;
+            --accent: #0ea5e9;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --terminal-bg: #0f172a;
+            --terminal-text: #e2e8f0;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .page-break { page-break-after: always; }
+
+        /* Cover Page */
+        .cover {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1e40af 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .cover-logo {
+            width: 100px; height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 48px; margin-bottom: 30px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .cover h1 {
+            font-size: 32px; font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .cover h2 {
+            font-size: 20px; font-weight: 400;
+            color: #94a3b8; margin-bottom: 50px;
+        }
+
+        .cover-table {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: 30px 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .cover-table table { border-collapse: collapse; }
+        .cover-table td {
+            padding: 8px 20px; font-size: 16px;
+            text-align: left; color: #cbd5e1;
+        }
+        .cover-table td:first-child { font-weight: 600; color: #60a5fa; }
+        .cover-table td:nth-child(2) { text-align: center; }
+
+        .cover-footer {
+            margin-top: 60px; color: #64748b; font-size: 14px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px; margin: 0 auto; padding: 40px 30px;
+        }
+
+        h1.section-title {
+            font-size: 28px; font-weight: 800; color: var(--primary);
+            border-bottom: 3px solid var(--primary-light);
+            padding-bottom: 10px; margin: 50px 0 25px 0;
+        }
+
+        h2 {
+            font-size: 22px; font-weight: 700; color: var(--text);
+            margin: 35px 0 15px 0;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h3 {
+            font-size: 17px; font-weight: 600; color: var(--text);
+            margin: 20px 0 10px 0;
+        }
+
+        p { margin: 10px 0; color: #334155; }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 15px; padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; flex-shrink: 0;
+        }
+
+        .card-icon.blue { background: #dbeafe; }
+        .card-icon.green { background: #dcfce7; }
+        .card-icon.orange { background: #ffedd5; }
+        .card-icon.purple { background: #f3e8ff; }
+
+        .card-title { font-size: 16px; font-weight: 700; }
+        .card-subtitle { font-size: 13px; color: var(--text-light); }
+
+        /* Terminal */
+        .terminal {
+            background: var(--terminal-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .terminal-bar {
+            background: #1e293b;
+            padding: 8px 15px;
+            display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .terminal-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+        }
+        .terminal-dot.red { background: #ef4444; }
+        .terminal-dot.yellow { background: #eab308; }
+        .terminal-dot.green { background: #22c55e; }
+
+        .terminal-title {
+            color: #94a3b8; font-size: 11px;
+            margin-left: 8px; flex: 1; text-align: center;
+        }
+
+        .terminal-body {
+            padding: 15px 20px;
+            color: var(--terminal-text);
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.5;
+        }
+
+        .terminal-body .info { color: #22d3ee; }
+        .terminal-body .success { color: #4ade80; }
+        .terminal-body .warn { color: #fbbf24; }
+        .terminal-body .header { color: #a78bfa; font-weight: 600; }
+        .terminal-body .separator { color: #475569; }
+
+        /* Tables */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        table.data-table th {
+            background: var(--primary);
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table.data-table th:first-child { border-radius: 8px 0 0 0; }
+        table.data-table th:last-child { border-radius: 0 8px 0 0; }
+
+        table.data-table td {
+            padding: 9px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table.data-table tr:nth-child(even) { background: #f8fafc; }
+        table.data-table tr:hover { background: #eff6ff; }
+
+        .badge {
+            display: inline-block; padding: 2px 10px;
+            border-radius: 20px; font-size: 11px; font-weight: 600;
+        }
+        .badge-success { background: #dcfce7; color: #166534; }
+        .badge-info { background: #dbeafe; color: #1e40af; }
+        .badge-warn { background: #fef3c7; color: #92400e; }
+
+        /* Info Box */
+        .info-box {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        .info-box.blue { background: #eff6ff; border-left: 4px solid #3b82f6; }
+        .info-box.green { background: #f0fdf4; border-left: 4px solid #22c55e; }
+        .info-box.orange { background: #fffbeb; border-left: 4px solid #f59e0b; }
+        .info-box.purple { background: #faf5ff; border-left: 4px solid #a855f7; }
+
+        .info-box strong { color: var(--text); }
+
+        /* Config Box */
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .config-item {
+            background: #f1f5f9;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        .config-item .label { color: var(--text-light); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .config-item .value { font-weight: 700; color: var(--text); font-size: 15px; }
+
+        /* Code */
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #be185d;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .code-block .keyword { color: #c084fc; }
+        .code-block .type { color: #22d3ee; }
+        .code-block .string { color: #34d399; }
+        .code-block .comment { color: #64748b; }
+        .code-block .number { color: #fbbf24; }
+
+        /* TOC */
+        .toc {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .toc h2 { margin-top: 0; border-left: none; padding-left: 0; }
+
+        .toc ol {
+            padding-left: 25px;
+        }
+
+        .toc li {
+            padding: 6px 0;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .toc li a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .toc li a:hover { text-decoration: underline; }
+
+        /* Comparison */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .comparison .col {
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .comparison .col.a { background: #eff6ff; border: 1px solid #bfdbfe; }
+        .comparison .col.b { background: #fef3c7; border: 1px solid #fde68a; }
+        .comparison .col h4 { margin-bottom: 10px; font-size: 14px; }
+
+        /* Print styles */
+        @media print {
+            body { font-size: 12px; }
+            .cover { min-height: auto; padding: 60px 40px; }
+            .terminal { box-shadow: none; border: 1px solid #ccc; }
+            .card { box-shadow: none; }
+            .no-print { display: none; }
+        }
+
+        .section-number {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            width: 30px; height: 30px;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== COVER PAGE ==================== -->
+<div class="cover">
+    <div class="cover-logo">☁️</div>
+    <h1>Laporan Hasil Praktikum ke 9</h1>
+    <h2>Mata Kuliah Cloud Computing</h2>
+    
+    <div class="cover-table">
+        <table>
+            <tr><td>Nama</td><td>:</td><td><strong>Efendi Sugiantoro</strong></td></tr>
+            <tr><td>NPM</td><td>:</td><td><strong>714230018</strong></td></tr>
+            <tr><td>Prodi</td><td>:</td><td><strong>D4TI ULBI</strong></td></tr>
+            <tr><td>Kelas</td><td>:</td><td><strong>3 A</strong></td></tr>
+            <tr><td>Dosen</td><td>:</td><td><strong>M. Yusril Helmi Setyawan, S.Kom., M.Kom.</strong></td></tr>
+        </table>
+    </div>
+    
+    <div class="cover-footer">
+        <p>Simulasi Cloud Computing menggunakan CloudSim Plus 8.5</p>
+        <p>Universitas Logistik dan Bisnis Internasional &mdash; 2025</p>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ==================== TABLE OF CONTENTS ==================== -->
+<div class="container">
+    <div class="toc">
+        <h2>📑 Daftar Isi</h2>
+        <ol>
+            <li><a href="#bab1">Pendahuluan</a></li>
+            <li><a href="#bab2">Konsep Dasar Virtualisasi &amp; CloudSim Plus</a></li>
+            <li><a href="#bab3">Latihan 1 &mdash; Simulasi Dasar (1 VM &amp; 2 Cloudlet)</a></li>
+            <li><a href="#bab4">Latihan 2 &mdash; Membandingkan Cloudlet Berbeda Ukuran</a></li>
+            <li><a href="#bab5">Latihan 3 &mdash; Eksperimen Jumlah VM</a></li>
+            <li><a href="#bab6">Latihan 4 &mdash; BasicFirstExample Resmi</a></li>
+            <li><a href="#bab7">Latihan 5 &mdash; CloudletScheduler TimeShared</a></li>
+            <li><a href="#bab8">Latihan 6 &mdash; CloudletScheduler SpaceShared</a></li>
+            <li><a href="#bab9">Latihan 7 &mdash; Multiple Brokers</a></li>
+            <li><a href="#bab10">Tugas Mandiri 1 &mdash; Tambah Host</a></li>
+            <li><a href="#bab11">Tugas Mandiri 2 &mdash; TimeShared → SpaceShared</a></li>
+            <li><a href="#bab12">Tugas Mandiri 3 &mdash; 3 Broker × 3 VM</a></li>
+            <li><a href="#bab13">Eksperimen Tambahan &mdash; Horizontal vs Vertical Scaling</a></li>
+            <li><a href="#bab14">Kesimpulan</a></li>
+        </ol>
+    </div>
+
+    <!-- ==================== BAB 1 ==================== -->
+    <h1 class="section-title" id="bab1"><span class="section-number">1</span> Pendahuluan</h1>
+
+    <h2>1.1 Tujuan Praktikum</h2>
+    <p>Praktikum ini bertujuan agar mahasiswa mampu:</p>
+    <ol style="padding-left: 25px; margin: 10px 0;">
+        <li>Memahami konsep dasar simulasi cloud computing menggunakan <strong>CloudSim Plus</strong>.</li>
+        <li>Menyiapkan lingkungan pengembangan di VS Code dengan Java 17+ dan Maven.</li>
+        <li>Menjalankan minimal 7 skenario simulasi bertahap.</li>
+        <li>Memahami penjadwalan <em>TimeShared</em> dan <em>SpaceShared</em>.</li>
+        <li>Mengenal konsep multi-tenancy dalam cloud computing.</li>
+    </ol>
+
+    <h2>1.2 Lingkungan Pengembangan</h2>
+    <div class="config-grid">
+        <div class="config-item"><div class="label">Bahasa</div><div class="value">Java 17+</div></div>
+        <div class="config-item"><div class="label">Build Tool</div><div class="value">Apache Maven 3.6+</div></div>
+        <div class="config-item"><div class="label">Framework</div><div class="value">CloudSim Plus 8.5.5</div></div>
+        <div class="config-item"><div class="label">IDE</div><div class="value">Visual Studio Code</div></div>
+    </div>
+
+    <h2>1.3 Struktur Proyek</h2>
+    <div class="code-block"><span class="comment">modul-latihan-cloudsimplus/</span>
+├── pom.xml
+├── docs/                           <span class="comment">← Folder laporan</span>
+└── src/main/java/id/latihan/cloudsimplus/
+    ├── Latihan01SimulasiDasar.java
+    ├── Latihan02MembandingkanCloudlet.java
+    ├── Latihan03EksperimenVm.java
+    ├── Latihan04BasicFirstExampleResmi.java
+    ├── Latihan05CloudletSchedulerTimeShared.java
+    ├── Latihan06CloudletSchedulerSpaceShared.java
+    ├── Latihan07MultipleBrokers.java
+    ├── Tugas01TambahHost.java       <span class="comment">← Tugas Mandiri</span>
+    ├── Tugas02TimeSharedKeSpaceShared.java
+    ├── Tugas03TigaBrokerTigaVm.java
+    └── EksperimenSkalabilitas.java  <span class="comment">← Eksperimen Tambahan</span></div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 2 ==================== -->
+    <h1 class="section-title" id="bab2"><span class="section-number">2</span> Konsep Dasar Virtualisasi &amp; CloudSim Plus</h1>
+
+    <h2>2.1 Apa itu Virtualisasi?</h2>
+    <p><strong>Virtualisasi</strong> adalah teknologi yang memungkinkan satu server fisik (hardware) menjalankan beberapa sistem operasi atau aplikasi secara bersamaan melalui <strong>Virtual Machine (VM)</strong>. Teknologi ini menjadi fondasi utama cloud computing.</p>
+    
+    <div class="info-box blue">
+        <strong>💡 Analogi Sederhana:</strong> Bayangkan sebuah apartemen (server fisik) yang dibagi menjadi beberapa unit kamar (VM). Setiap penghuni (cloudlet/aplikasi) mendapat kamar sendiri yang terisolasi, tapi mereka berbagi infrastruktur gedung yang sama (listrik, air, internet).
+    </div>
+
+    <h2>2.2 Tipe Hypervisor</h2>
+    <table class="data-table">
+        <tr><th>Tipe</th><th>Nama</th><th>Posisi</th><th>Contoh</th></tr>
+        <tr><td><span class="badge badge-info">Type 1</span></td><td>Bare-metal</td><td>Langsung di atas hardware</td><td>VMware ESXi, Xen, KVM</td></tr>
+        <tr><td><span class="badge badge-warn">Type 2</span></td><td>Hosted</td><td>Di atas OS host</td><td>VirtualBox, VMware Workstation</td></tr>
+    </table>
+
+    <h2>2.3 Komponen CloudSim Plus</h2>
+    <table class="data-table">
+        <tr><th>Komponen</th><th>Representasi</th><th>Fungsi</th></tr>
+        <tr><td><code>CloudSimPlus</code></td><td>Simulation Engine</td><td>Mengatur jalannya simulasi dan event</td></tr>
+        <tr><td><code>DatacenterBroker</code></td><td>Pelanggan Cloud</td><td>Perantara yang mengirim VM & cloudlet ke datacenter</td></tr>
+        <tr><td><code>Datacenter</code></td><td>Pusat Data</td><td>Menyediakan resource komputasi</td></tr>
+        <tr><td><code>Host</code></td><td>Server Fisik</td><td>Memiliki CPU, RAM, BW, Storage</td></tr>
+        <tr><td><code>PE</code></td><td>CPU Core</td><td>Processing Element, diukur dalam MIPS</td></tr>
+        <tr><td><code>VM</code></td><td>Virtual Machine</td><td>Mesin virtual yang berjalan di atas host</td></tr>
+        <tr><td><code>Cloudlet</code></td><td>Pekerjaan/Aplikasi</td><td>Task yang dijalankan pada VM</td></tr>
+    </table>
+
+    <h2>2.4 Alur Simulasi CloudSim Plus</h2>
+    <div class="info-box purple">
+        <strong>Alur:</strong> <code>CloudSimPlus</code> → <code>Broker</code> submit VM & Cloudlet → <code>Datacenter</code> menerima → <code>Host</code> mengalokasikan VM → <code>VM</code> menjalankan Cloudlet → Hasil ditampilkan sebagai tabel.
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 3: LATIHAN 01 ==================== -->
+    <h1 class="section-title" id="bab3"><span class="section-number">3</span> Latihan 1 — Simulasi Dasar</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon blue">📋</div>
+            <div><div class="card-title">Konfigurasi Simulasi</div>
+            <div class="card-subtitle">File: Latihan01SimulasiDasar.java</div></div>
+        </div>
+        <div class="config-grid">
+            <div class="config-item"><div class="label">Host</div><div class="value">1 Host, 1 PE @ 20000 MIPS</div></div>
+            <div class="config-item"><div class="label">RAM / Storage / BW</div><div class="value">10 GB / 100 GB / 100 Gbps</div></div>
+            <div class="config-item"><div class="label">VM</div><div class="value">1 VM, 1000 MIPS, 1 PE</div></div>
+            <div class="config-item"><div class="label">Cloudlet</div><div class="value">2 × 10000 MI, utilisasi 50%</div></div>
+        </div>
+    </div>
+
+    <h2>3.1 Source Code</h2>
+    <div class="code-block"><span class="keyword">var</span> simulation = <span class="keyword">new</span> <span class="type">CloudSimPlus</span>();
+<span class="keyword">var</span> broker = <span class="keyword">new</span> <span class="type">DatacenterBrokerSimple</span>(simulation);
+
+<span class="comment">// Host: RAM 10 GB, Strg 100 GB, BW 100 Gbps, 1 PE @ 20000 MIPS</span>
+<span class="keyword">var</span> host = <span class="keyword">new</span> <span class="type">HostSimple</span>(<span class="number">10000</span>, <span class="number">100000</span>, <span class="number">100000</span>, List.of(<span class="keyword">new</span> <span class="type">PeSimple</span>(<span class="number">20000</span>)));
+<span class="keyword">new</span> <span class="type">DatacenterSimple</span>(simulation, List.of(host));
+
+<span class="comment">// VM: 1000 MIPS, 1 PE</span>
+<span class="keyword">var</span> vm = <span class="keyword">new</span> <span class="type">VmSimple</span>(<span class="number">1000</span>, <span class="number">1</span>);
+vm.setRam(<span class="number">1000</span>).setBw(<span class="number">1000</span>).setSize(<span class="number">1000</span>);
+
+<span class="comment">// Cloudlet: 10000 MI, 1 PE, utilisasi 50%</span>
+<span class="keyword">var</span> utilization = <span class="keyword">new</span> <span class="type">UtilizationModelDynamic</span>(<span class="number">0.5</span>);
+<span class="keyword">var</span> cloudlet1 = <span class="keyword">new</span> <span class="type">CloudletSimple</span>(<span class="number">10000</span>, <span class="number">1</span>, utilization);
+<span class="keyword">var</span> cloudlet2 = <span class="keyword">new</span> <span class="type">CloudletSimple</span>(<span class="number">10000</span>, <span class="number">1</span>, utilization);</div>
+
+    <h2>3.2 Hasil Simulasi (Screenshot)</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">PowerShell — mvn exec:java Latihan01SimulasiDasar</div>
+        </div>
+        <div class="terminal-body"><span class="info">INFO</span>  ================== Starting CloudSim Plus 8.5.1 ==================
+
+<span class="info">INFO</span>  Broker 1 is starting...
+<span class="info">INFO</span>  0.00: #Datacenter 2 is starting...
+<span class="info">INFO</span>  0.00: DatacenterBrokerSimple1: Trying to create Vm 0 inside #Datacenter 2
+<span class="info">INFO</span>  0.00: VmAllocationPolicySimple: Vm 0 has been allocated to Host 0/#DC 2
+<span class="info">INFO</span>  0.10: DatacenterBrokerSimple1: Sending Cloudlet 0 to Vm 0 inside Host 0/#DC 2.
+<span class="info">INFO</span>  0.10: DatacenterBrokerSimple1: Sending Cloudlet 1 to Vm 0 inside Host 0/#DC 2.
+<span class="info">INFO</span>  40.11: DatacenterBrokerSimple1: Cloudlet 0 finished in Vm 0 and returned to broker.
+<span class="info">INFO</span>  40.11: DatacenterBrokerSimple1: Cloudlet 1 finished in Vm 0 and returned to broker.
+
+<span class="info">INFO</span>  ================== Simulation finished at time 40.22 ==================
+
+<span class="header">                                         SIMULATION RESULTS</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|      ID|       |ID|  ID|CPU cores|ID|CPU cores|         MI|         MI|  CPU cores|  Seconds|   Seconds| Seconds
+|       0|<span class="success">SUCCESS</span>| 2|   0|        1| 0|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       1|<span class="success">SUCCESS</span>| 2|   0|        1| 0|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span></div>
+    </div>
+
+    <h2>3.3 Analisis Hasil</h2>
+    <table class="data-table">
+        <tr><th>Cloudlet ID</th><th>Status</th><th>VM ID</th><th>CloudletLen</th><th>StartTime</th><th>FinishTime</th><th>ExecTime</th></tr>
+        <tr><td>0</td><td><span class="badge badge-success">SUCCESS</span></td><td>0</td><td>10000 MI</td><td>0.1s</td><td>40.1s</td><td><strong>40.0s</strong></td></tr>
+        <tr><td>1</td><td><span class="badge badge-success">SUCCESS</span></td><td>0</td><td>10000 MI</td><td>0.1s</td><td>40.1s</td><td><strong>40.0s</strong></td></tr>
+    </table>
+
+    <div class="info-box green">
+        <strong>🔍 Penjelasan:</strong> Kedua cloudlet berjalan di <strong>VM yang sama</strong> (VM 0) dengan 1 PE. Karena scheduler default adalah <strong>TimeShared</strong>, CPU 1000 MIPS dibagi 2 → masing-masing mendapat 500 MIPS efektif. Namun karena utilisasi hanya 50%, efektif MIPS = 1000 × 0.5 = 500 MIPS, dibagi 2 cloudlet = 250 MIPS per cloudlet. Sehingga ExecTime = 10000 / 250 = <strong>40 detik</strong>.
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 4: LATIHAN 02 ==================== -->
+    <h1 class="section-title" id="bab4"><span class="section-number">4</span> Latihan 2 — Membandingkan Cloudlet</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon green">📊</div>
+            <div><div class="card-title">Konfigurasi Simulasi</div>
+            <div class="card-subtitle">File: Latihan02MembandingkanCloudlet.java</div></div>
+        </div>
+        <div class="config-grid">
+            <div class="config-item"><div class="label">Host</div><div class="value">1 Host, 2 PE @ 10000 MIPS</div></div>
+            <div class="config-item"><div class="label">VM</div><div class="value">1 VM, 2000 MIPS, 1 PE</div></div>
+            <div class="config-item"><div class="label">Cloudlet</div><div class="value">4 cloudlet: 5K, 10K, 20K, 30K MI</div></div>
+            <div class="config-item"><div class="label">Utilisasi</div><div class="value">25%</div></div>
+        </div>
+    </div>
+
+    <h2>4.1 Hasil Simulasi (Screenshot)</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">PowerShell — mvn exec:java Latihan02MembandingkanCloudlet</div>
+        </div>
+        <div class="terminal-body"><span class="info">INFO</span>  ================== Starting CloudSim Plus 8.5.1 ==================
+
+<span class="info">INFO</span>  0.10: DatacenterBrokerSimple1: Sending Cloudlet 0 to Vm 0
+<span class="info">INFO</span>  0.10: DatacenterBrokerSimple1: Sending Cloudlet 1 to Vm 0
+<span class="info">INFO</span>  0.10: DatacenterBrokerSimple1: Sending Cloudlet 2 to Vm 0
+<span class="info">INFO</span>  0.10: DatacenterBrokerSimple1: Sending Cloudlet 3 to Vm 0
+<span class="info">INFO</span>  40.23:  Cloudlet 0 finished  |  <span class="info">INFO</span>  70.39:  Cloudlet 1 finished
+<span class="info">INFO</span>  110.43: Cloudlet 2 finished  |  <span class="info">INFO</span>  130.49: Cloudlet 3 finished
+
+<span class="info">INFO</span>  ================== Simulation finished at time 130.60 ==================
+
+<span class="header">                                         SIMULATION RESULTS</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|      ID|       |ID|  ID|CPU cores|ID|CPU cores|         MI|         MI|  CPU cores|  Seconds|   Seconds| Seconds
+|       0|<span class="success">SUCCESS</span>| 2|   0|        2| 0|        1|       5000|       5000|          1|      0.1|      40.2|    <span class="warn">40.1</span>
+|       1|<span class="success">SUCCESS</span>| 2|   0|        2| 0|        1|      10000|      10000|          1|      0.1|      70.4|    <span class="warn">70.3</span>
+|       2|<span class="success">SUCCESS</span>| 2|   0|        2| 0|        1|      20000|      20000|          1|      0.1|     110.4|   <span class="warn">110.3</span>
+|       3|<span class="success">SUCCESS</span>| 2|   0|        2| 0|        1|      30000|      30000|          1|      0.1|     130.5|   <span class="warn">130.4</span></div>
+    </div>
+
+    <h2>4.2 Analisis Hasil</h2>
+    <table class="data-table">
+        <tr><th>Cloudlet</th><th>CloudletLen (MI)</th><th>ExecTime (s)</th><th>Urutan Selesai</th></tr>
+        <tr><td>0</td><td>5,000</td><td>40.1</td><td>🥇 Pertama</td></tr>
+        <tr><td>1</td><td>10,000</td><td>70.3</td><td>🥈 Kedua</td></tr>
+        <tr><td>2</td><td>20,000</td><td>110.3</td><td>🥉 Ketiga</td></tr>
+        <tr><td>3</td><td>30,000</td><td>130.4</td><td>4️⃣ Keempat</td></tr>
+    </table>
+
+    <div class="info-box blue">
+        <strong>🔍 Penjelasan:</strong> Semakin panjang cloudlet (MI), semakin lama waktu eksekusinya. Namun hubungannya <strong>tidak linear sempurna</strong> karena keempat cloudlet berjalan bersamaan via TimeShared — ketika cloudlet pendek selesai lebih dulu, resource yang tersisa dialokasikan ke cloudlet yang masih berjalan, sehingga cloudlet yang tersisa mendapat lebih banyak CPU.
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 5: LATIHAN 03 ==================== -->
+    <h1 class="section-title" id="bab5"><span class="section-number">5</span> Latihan 3 — Eksperimen Jumlah VM</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon orange">🖥️</div>
+            <div><div class="card-title">Konfigurasi Simulasi</div>
+            <div class="card-subtitle">File: Latihan03EksperimenVm.java</div></div>
+        </div>
+        <div class="config-grid">
+            <div class="config-item"><div class="label">Host</div><div class="value">1 Host, 4 PE @ 10000 MIPS</div></div>
+            <div class="config-item"><div class="label">VM</div><div class="value">2 VM, masing-masing 1 PE</div></div>
+            <div class="config-item"><div class="label">Cloudlet</div><div class="value">4 × 10000 MI identik</div></div>
+            <div class="config-item"><div class="label">Utilisasi</div><div class="value">25%</div></div>
+        </div>
+    </div>
+
+    <h2>5.1 Hasil Simulasi (Screenshot)</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">PowerShell — mvn exec:java Latihan03EksperimenVm</div>
+        </div>
+        <div class="terminal-body"><span class="info">INFO</span>  ================== Simulation finished at time 40.22 ==================
+
+<span class="header">                                         SIMULATION RESULTS</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|      ID|       |ID|  ID|CPU cores|ID|CPU cores|         MI|         MI|  CPU cores|  Seconds|   Seconds| Seconds
+|       0|<span class="success">SUCCESS</span>| 2|   0|        4| <span class="warn">0</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       2|<span class="success">SUCCESS</span>| 2|   0|        4| <span class="warn">0</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       1|<span class="success">SUCCESS</span>| 2|   0|        4| <span class="warn">1</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       3|<span class="success">SUCCESS</span>| 2|   0|        4| <span class="warn">1</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span></div>
+    </div>
+
+    <h2>5.2 Analisis Hasil</h2>
+    <div class="info-box green">
+        <strong>🔍 Penjelasan:</strong> 4 cloudlet didistribusikan ke <strong>2 VM</strong>: Cloudlet 0 & 2 → VM 0, Cloudlet 1 & 3 → VM 1. Setiap VM time-share 2 cloudlet. Hasilnya, semua cloudlet selesai dalam waktu yang sama (40 detik). Jika hanya menggunakan 1 VM, semua 4 cloudlet harus berbagi 1 PE → waktu eksekusi akan jauh lebih lama. <strong>Penambahan VM meningkatkan paralelisme.</strong>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 6: LATIHAN 04 ==================== -->
+    <h1 class="section-title" id="bab6"><span class="section-number">6</span> Latihan 4 — BasicFirstExample Resmi</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon purple">📚</div>
+            <div><div class="card-title">Konfigurasi Simulasi (Pola Resmi)</div>
+            <div class="card-subtitle">File: Latihan04BasicFirstExampleResmi.java</div></div>
+        </div>
+        <div class="config-grid">
+            <div class="config-item"><div class="label">Host</div><div class="value">1 Host, 8 PE @ 1000 MIPS</div></div>
+            <div class="config-item"><div class="label">RAM</div><div class="value">2048 MB</div></div>
+            <div class="config-item"><div class="label">VM</div><div class="value">2 VM, 4 PE masing-masing</div></div>
+            <div class="config-item"><div class="label">Cloudlet</div><div class="value">4 × 10000 MI, 2 PE per cloudlet</div></div>
+        </div>
+    </div>
+
+    <h2>6.1 Hasil Simulasi (Screenshot)</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">PowerShell — mvn exec:java Latihan04BasicFirstExampleResmi</div>
+        </div>
+        <div class="terminal-body"><span class="info">INFO</span>  ================== Simulation finished at time 20.22 ==================
+
+<span class="header">                                         SIMULATION RESULTS</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|      ID|       |ID|  ID|CPU cores|ID|CPU cores|         MI|         MI|  CPU cores|  Seconds|   Seconds| Seconds
+|       0|<span class="success">SUCCESS</span>| 1|   0|        8| 0|        4|      10000|      10000|          2|      0.1|      20.1|    <span class="warn">20.0</span>
+|       2|<span class="success">SUCCESS</span>| 1|   0|        8| 0|        4|      10000|      10000|          2|      0.1|      20.1|    <span class="warn">20.0</span>
+|       1|<span class="success">SUCCESS</span>| 1|   0|        8| 1|        4|      10000|      10000|          2|      0.1|      20.1|    <span class="warn">20.0</span>
+|       3|<span class="success">SUCCESS</span>| 1|   0|        8| 1|        4|      10000|      10000|          2|      0.1|      20.1|    <span class="warn">20.0</span></div>
+    </div>
+
+    <h2>6.2 Analisis Hasil</h2>
+    <div class="info-box blue">
+        <strong>🔍 Penjelasan:</strong> Setiap cloudlet butuh 2 PE, setiap VM punya 4 PE → <strong>2 cloudlet paralel per VM</strong>. Karena VM punya resource yang cukup, ExecTime = 10000 MI / (1000 MIPS × 0.5 utilisasi) = <strong>20 detik</strong>. Latihan ini menunjukkan pola kode resmi CloudSim Plus dengan konstanta konfigurasi dan method terstruktur.
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 7: LATIHAN 05 ==================== -->
+    <h1 class="section-title" id="bab7"><span class="section-number">7</span> Latihan 5 — CloudletScheduler TimeShared</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon blue">⏱️</div>
+            <div><div class="card-title">Konfigurasi Simulasi</div>
+            <div class="card-subtitle">File: Latihan05CloudletSchedulerTimeShared.java</div></div>
+        </div>
+        <div class="config-grid">
+            <div class="config-item"><div class="label">Host</div><div class="value">1 PE @ 1000 MIPS, RAM 20 GB</div></div>
+            <div class="config-item"><div class="label">VM Scheduler</div><div class="value">VmSchedulerTimeShared</div></div>
+            <div class="config-item"><div class="label">VM</div><div class="value">1000 MIPS, 1 PE</div></div>
+            <div class="config-item"><div class="label">Cloudlet Scheduler</div><div class="value" style="color:#1e40af;font-weight:800;">CloudletSchedulerTimeShared</div></div>
+        </div>
+    </div>
+
+    <h2>7.1 Hasil Simulasi (Screenshot)</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">PowerShell — mvn exec:java Latihan05CloudletSchedulerTimeShared</div>
+        </div>
+        <div class="terminal-body"><span class="info">INFO</span>  ================== Simulation finished at time 20.22 ==================
+
+<span class="header">                                         SIMULATION RESULTS</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|      ID|       |ID|  ID|CPU cores|ID|CPU cores|         MI|         MI|  CPU cores|  Seconds|   Seconds| Seconds
+|       0|<span class="success">SUCCESS</span>| 2|   0|        1| 0|        1|      10000|      10000|          1|      <span class="warn">0.1</span>|      20.1|    <span class="warn">20.0</span>
+|       1|<span class="success">SUCCESS</span>| 2|   0|        1| 0|        1|      10000|      10000|          1|      <span class="warn">0.1</span>|      20.1|    <span class="warn">20.0</span></div>
+    </div>
+
+    <h2>7.2 Analisis Hasil</h2>
+    <div class="info-box green">
+        <strong>🔍 Penjelasan TimeShared:</strong> Kedua cloudlet <strong>mulai bersamaan</strong> di waktu 0.1 detik. CPU 1000 MIPS <strong>dibagi rata</strong> → masing-masing mendapat 500 MIPS. Sehingga ExecTime = 10000 / 500 = <strong>20 detik</strong>. Kedua cloudlet selesai pada waktu yang sama.
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 8: LATIHAN 06 ==================== -->
+    <h1 class="section-title" id="bab8"><span class="section-number">8</span> Latihan 6 — CloudletScheduler SpaceShared</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon orange">📦</div>
+            <div><div class="card-title">Konfigurasi Simulasi</div>
+            <div class="card-subtitle">File: Latihan06CloudletSchedulerSpaceShared.java</div></div>
+        </div>
+        <p style="margin-top:10px;">Konfigurasi <strong>identik</strong> dengan Latihan 5, kecuali scheduler diubah menjadi <code>CloudletSchedulerSpaceShared</code>.</p>
+    </div>
+
+    <h2>8.1 Hasil Simulasi (Screenshot)</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">PowerShell — mvn exec:java Latihan06CloudletSchedulerSpaceShared</div>
+        </div>
+        <div class="terminal-body"><span class="info">INFO</span>  0.10: Sending Cloudlet 0 to Vm 0
+<span class="info">INFO</span>  0.10: Sending Cloudlet 1 to Vm 0
+<span class="info">INFO</span>  <span class="success">10.10</span>: Cloudlet 0 finished in Vm 0 and returned to broker.
+<span class="info">INFO</span>  <span class="success">20.21</span>: Cloudlet 1 finished in Vm 0 and returned to broker.
+
+<span class="info">INFO</span>  ================== Simulation finished at time 20.32 ==================
+
+<span class="header">                                         SIMULATION RESULTS</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|      ID|       |ID|  ID|CPU cores|ID|CPU cores|         MI|         MI|  CPU cores|  Seconds|   Seconds| Seconds
+|       0|<span class="success">SUCCESS</span>| 2|   0|        1| 0|        1|      10000|      10000|          1|      <span class="warn">0.1</span>|      <span class="success">10.1</span>|    <span class="warn">10.0</span>
+|       1|<span class="success">SUCCESS</span>| 2|   0|        1| 0|        1|      10000|      10000|          1|     <span class="warn">10.2</span>|      <span class="success">20.2</span>|    <span class="warn">10.0</span></div>
+    </div>
+
+    <h2>8.2 Perbandingan TimeShared vs SpaceShared</h2>
+    <div class="comparison">
+        <div class="col a">
+            <h4>⏱️ TimeShared (Latihan 5)</h4>
+            <ul style="font-size:13px; padding-left:20px;">
+                <li>Cloudlet 0: Start <strong>0.1s</strong>, Finish <strong>20.1s</strong></li>
+                <li>Cloudlet 1: Start <strong>0.1s</strong>, Finish <strong>20.1s</strong></li>
+                <li>CPU per cloudlet: <strong>500 MIPS</strong></li>
+                <li>Keduanya jalan <strong>bersamaan</strong></li>
+            </ul>
+        </div>
+        <div class="col b">
+            <h4>📦 SpaceShared (Latihan 6)</h4>
+            <ul style="font-size:13px; padding-left:20px;">
+                <li>Cloudlet 0: Start <strong>0.1s</strong>, Finish <strong>10.1s</strong></li>
+                <li>Cloudlet 1: Start <strong>10.2s</strong>, Finish <strong>20.2s</strong></li>
+                <li>CPU per cloudlet: <strong>1000 MIPS</strong> (penuh)</li>
+                <li>Cloudlet 1 <strong>menunggu</strong> Cloudlet 0</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="info-box orange">
+        <strong>🔍 Kesimpulan:</strong> <strong>SpaceShared</strong> memberi tiap cloudlet akses CPU <strong>penuh</strong> (ExecTime 10s vs 20s), tapi cloudlet berikutnya harus <strong>mengantri</strong>. <strong>TimeShared</strong> memungkinkan semua jalan bersamaan tapi waktu individu lebih lama. Total throughput keduanya sama (~20 detik).
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 9: LATIHAN 07 ==================== -->
+    <h1 class="section-title" id="bab9"><span class="section-number">9</span> Latihan 7 — Multiple Brokers</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon purple">👥</div>
+            <div><div class="card-title">Konfigurasi Simulasi</div>
+            <div class="card-subtitle">File: Latihan07MultipleBrokers.java</div></div>
+        </div>
+        <div class="config-grid">
+            <div class="config-item"><div class="label">Datacenter</div><div class="value">2 Host, 8 PE @ 1000 MIPS</div></div>
+            <div class="config-item"><div class="label">Scheduling Interval</div><div class="value">5 detik</div></div>
+            <div class="config-item"><div class="label">Broker</div><div class="value">2 Broker (2 pelanggan)</div></div>
+            <div class="config-item"><div class="label">VM / Broker</div><div class="value">2 VM, 4 PE, TimeShared</div></div>
+        </div>
+    </div>
+
+    <h2>9.1 Hasil Simulasi (Screenshot)</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">PowerShell — mvn exec:java Latihan07MultipleBrokers</div>
+        </div>
+        <div class="terminal-body"><span class="info">INFO</span>  ================== Simulation finished at time 48.22 ==================
+
+<span class="header">                                       DatacenterBrokerSimple2</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|       0|<span class="success">SUCCESS</span>| 1|   0|        8| 0|        4|      10000|      10000|          2|      0.1|      10.1|    <span class="warn">10.0</span>
+|       1|<span class="success">SUCCESS</span>| 1|   1|        8| 1|        4|      20000|      20000|          2|      0.1|      20.2|    <span class="warn">20.1</span>
+
+<span class="header">                                       DatacenterBrokerSimple3</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|       0|<span class="success">SUCCESS</span>| 1|   0|        8| 0|        4|      30000|      30000|          2|      0.1|      30.2|    <span class="warn">30.1</span>
+|       1|<span class="success">SUCCESS</span>| 1|   1|        8| 1|        4|      40000|      40000|          2|      0.1|      40.2|    <span class="warn">40.1</span></div>
+    </div>
+
+    <h2>9.2 Analisis Hasil</h2>
+    <div class="info-box purple">
+        <strong>🔍 Penjelasan Multi-Tenancy:</strong> Dua broker (pelanggan cloud) <strong>berbagi</strong> satu datacenter. VM dari broker berbeda ditempatkan di <strong>host yang sama</strong> — ini menunjukkan konsep <strong>multi-tenancy</strong>. Setiap broker mendapat tabel hasil <strong>terpisah</strong>, membuktikan isolasi antar pelanggan.
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 10: TUGAS MANDIRI 1 ==================== -->
+    <h1 class="section-title" id="bab10"><span class="section-number">10</span> Tugas Mandiri 1 — Tambah Host</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon green">✍️</div>
+            <div><div class="card-title">Tugas: Tambah 1 Host di Latihan 4</div>
+            <div class="card-subtitle">File: Tugas01TambahHost.java — Perubahan: HOSTS = 1 → 2</div></div>
+        </div>
+    </div>
+
+    <h2>10.1 Perubahan Kode</h2>
+    <div class="code-block"><span class="comment">// Perubahan dari Latihan04:</span>
+<span class="keyword">private static final int</span> HOSTS = <span class="number">2</span>;  <span class="comment">// sebelumnya 1</span></div>
+
+    <h2>10.2 Hasil Simulasi (Screenshot)</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">PowerShell — mvn exec:java Tugas01TambahHost</div>
+        </div>
+        <div class="terminal-body"><span class="info">INFO</span>  0.00: VmAllocationPolicySimple: Vm 0 has been allocated to Host <span class="warn">0</span>/#DC 1
+<span class="info">INFO</span>  0.00: VmAllocationPolicySimple: Vm 1 has been allocated to Host <span class="warn">1</span>/#DC 1
+
+=== TUGAS MANDIRI 1: Datacenter dengan 2 Host ===
+Perhatikan kolom 'Host ID' — apakah VM ditempatkan di host berbeda?
+
+<span class="header">                                         SIMULATION RESULTS</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|       0|<span class="success">SUCCESS</span>| 1|   <span class="warn">0</span>|        8| 0|        4|      10000|      10000|          2|      0.1|      20.1|    20.0
+|       2|<span class="success">SUCCESS</span>| 1|   <span class="warn">0</span>|        8| 0|        4|      10000|      10000|          2|      0.1|      20.1|    20.0
+|       1|<span class="success">SUCCESS</span>| 1|   <span class="warn">1</span>|        8| 1|        4|      10000|      10000|          2|      0.1|      20.1|    20.0
+|       3|<span class="success">SUCCESS</span>| 1|   <span class="warn">1</span>|        8| 1|        4|      10000|      10000|          2|      0.1|      20.1|    20.0</div>
+    </div>
+
+    <h2>10.3 Analisis Hasil</h2>
+    <div class="info-box green">
+        <strong>🔍 Temuan:</strong> Dengan 2 host, VM 0 ditempatkan di <strong>Host 0</strong> dan VM 1 ditempatkan di <strong>Host 1</strong>. Ini menunjukkan <strong>VM Placement Policy</strong> bekerja — CloudSim Plus secara otomatis <strong>menyebarkan VM ke host yang berbeda</strong> untuk load balancing. Bandingkan dengan Latihan 4 di mana kedua VM berada di host yang sama (Host 0).
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 11: TUGAS MANDIRI 2 ==================== -->
+    <h1 class="section-title" id="bab11"><span class="section-number">11</span> Tugas Mandiri 2 — TimeShared → SpaceShared</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon blue">✍️</div>
+            <div><div class="card-title">Tugas: Ubah Latihan 5 menjadi SpaceShared</div>
+            <div class="card-subtitle">File: Tugas02TimeSharedKeSpaceShared.java</div></div>
+        </div>
+    </div>
+
+    <h2>11.1 Perubahan Kode</h2>
+    <div class="code-block"><span class="comment">// Perubahan dari Latihan05:</span>
+<span class="keyword">var</span> vm = <span class="keyword">new</span> <span class="type">VmSimple</span>(<span class="number">1000</span>, <span class="number">1</span>)
+    .setCloudletScheduler(<span class="keyword">new</span> <span class="type">CloudletSchedulerSpaceShared</span>());  <span class="comment">// sebelumnya TimeShared</span></div>
+
+    <h2>11.2 Hasil Simulasi (Screenshot)</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">PowerShell — mvn exec:java Tugas02TimeSharedKeSpaceShared</div>
+        </div>
+        <div class="terminal-body">=== TUGAS MANDIRI 2: SpaceShared (diubah dari TimeShared) ===
+Bandingkan dengan Latihan 05 (TimeShared):
+  TimeShared  → kedua cloudlet selesai di 20 detik (bersamaan, CPU dibagi)
+  SpaceShared → cloudlet 0 selesai 10 detik, cloudlet 1 selesai 20 detik (bergantian)
+
+<span class="header">                                         SIMULATION RESULTS</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|       0|<span class="success">SUCCESS</span>| 2|   0|        1| 0|        1|      10000|      10000|          1|      <span class="warn">0.1</span>|      <span class="success">10.1</span>|    <span class="warn">10.0</span>
+|       1|<span class="success">SUCCESS</span>| 2|   0|        1| 0|        1|      10000|      10000|          1|     <span class="warn">10.2</span>|      <span class="success">20.2</span>|    <span class="warn">10.0</span></div>
+    </div>
+
+    <h2>11.3 Analisis Perbandingan</h2>
+    <table class="data-table">
+        <tr><th>Aspek</th><th>TimeShared (L05)</th><th>SpaceShared (Tugas 2)</th></tr>
+        <tr><td>Cloudlet 0 selesai</td><td>20.1 detik</td><td><strong>10.1 detik ✅ lebih cepat</strong></td></tr>
+        <tr><td>Cloudlet 1 selesai</td><td>20.1 detik</td><td>20.2 detik</td></tr>
+        <tr><td>Paralelisme</td><td>✅ Ya (bersamaan)</td><td>❌ Tidak (bergantian)</td></tr>
+        <tr><td>CPU per cloudlet</td><td>500 MIPS (dibagi)</td><td><strong>1000 MIPS (penuh)</strong></td></tr>
+        <tr><td>Cocok untuk</td><td>Interactive workloads</td><td>Batch processing</td></tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 12: TUGAS MANDIRI 3 ==================== -->
+    <h1 class="section-title" id="bab12"><span class="section-number">12</span> Tugas Mandiri 3 — 3 Broker × 3 VM</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon orange">✍️</div>
+            <div><div class="card-title">Tugas: Skenario 3 Broker &amp; 3 VM per Broker</div>
+            <div class="card-subtitle">File: Tugas03TigaBrokerTigaVm.java — Total: 9 VM, 9 Cloudlet</div></div>
+        </div>
+        <div class="config-grid">
+            <div class="config-item"><div class="label">Host</div><div class="value">3 Host, 8 PE, RAM 8 GB</div></div>
+            <div class="config-item"><div class="label">Broker</div><div class="value">3 Broker (3 pelanggan)</div></div>
+            <div class="config-item"><div class="label">VM / Broker</div><div class="value">3 VM, 2 PE masing-masing</div></div>
+            <div class="config-item"><div class="label">Cloudlet / Broker</div><div class="value">3 cloudlet, panjang berbeda</div></div>
+        </div>
+    </div>
+
+    <h2>12.1 Hasil Simulasi (Screenshot)</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">PowerShell — mvn exec:java Tugas03TigaBrokerTigaVm</div>
+        </div>
+        <div class="terminal-body">=== TUGAS MANDIRI 3: 3 Broker × 3 VM × 3 Cloudlet ===
+Total: 3 pelanggan, 9 VM, 9 cloudlet, 3 host fisik
+
+<span class="header">                                       DatacenterBrokerSimple2</span>
+|       0|<span class="success">SUCCESS</span>| 1|   0|        8| 0|        2|      10000|      10000|          1|      0.1|      20.1|    <span class="warn">20.0</span>
+|       1|<span class="success">SUCCESS</span>| 1|   1|        8| 1|        2|      20000|      20000|          1|      0.1|      40.2|    <span class="warn">40.1</span>
+|       2|<span class="success">SUCCESS</span>| 1|   2|        8| 2|        2|      30000|      30000|          1|      0.1|      60.2|    <span class="warn">60.1</span>
+
+<span class="header">                                       DatacenterBrokerSimple3</span>
+|       0|<span class="success">SUCCESS</span>| 1|   0|        8| 0|        2|      25000|      25000|          1|      0.1|      50.2|    <span class="warn">50.1</span>
+|       1|<span class="success">SUCCESS</span>| 1|   1|        8| 1|        2|      35000|      35000|          1|      0.1|      70.3|    <span class="warn">70.2</span>
+|       2|<span class="success">SUCCESS</span>| 1|   2|        8| 2|        2|      45000|      45000|          1|      0.1|      90.3|    <span class="warn">90.2</span>
+
+<span class="header">                                       DatacenterBrokerSimple4</span>
+|       0|<span class="success">SUCCESS</span>| 1|   0|        8| 0|        2|      40000|      40000|          1|      0.1|      80.3|    <span class="warn">80.2</span>
+|       1|<span class="success">SUCCESS</span>| 1|   1|        8| 1|        2|      50000|      50000|          1|      0.1|     100.3|   <span class="warn">100.2</span>
+|       2|<span class="success">SUCCESS</span>| 1|   2|        8| 2|        2|      60000|      60000|          1|      0.1|     120.2|   <span class="warn">120.1</span></div>
+    </div>
+
+    <h2>12.2 Analisis Hasil</h2>
+    <div class="info-box green">
+        <strong>🔍 Temuan:</strong> 9 VM berhasil di-deploy ke 3 host (3 VM per host) menggunakan <strong>VmSchedulerTimeShared</strong>. Setiap broker mendapat resource yang adil. VM dari broker berbeda bisa berjalan di host yang sama — ini menunjukkan <strong>multi-tenancy skala besar</strong> bekerja dengan baik di CloudSim Plus.
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 13: EKSPERIMEN TAMBAHAN ==================== -->
+    <h1 class="section-title" id="bab13"><span class="section-number">13</span> Eksperimen — Horizontal vs Vertical Scaling</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon purple">🧪</div>
+            <div><div class="card-title">Eksperimen Skalabilitas</div>
+            <div class="card-subtitle">File: EksperimenSkalabilitas.java</div></div>
+        </div>
+        <p style="margin-top:10px;">Membandingkan dua strategi scaling dalam cloud computing:</p>
+        <ul style="padding-left:20px; margin-top:10px;">
+            <li><strong>Vertical Scaling (Scale UP):</strong> 1 VM besar (4 PE) menjalankan 8 cloudlet</li>
+            <li><strong>Horizontal Scaling (Scale OUT):</strong> 4 VM kecil (1 PE masing-masing) menjalankan 8 cloudlet</li>
+        </ul>
+    </div>
+
+    <h2>13.1 Hasil Skenario A: Vertical Scaling</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">Skenario A: 1 VM Besar (4 PE) — 8 Cloudlet</div>
+        </div>
+        <div class="terminal-body"><span class="header">                                    Skenario A: 1 VM Besar (4 PE)</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|       0|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">0</span>|        4|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       1|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">0</span>|        4|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       2|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">0</span>|        4|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       3|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">0</span>|        4|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       4|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">0</span>|        4|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       5|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">0</span>|        4|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       6|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">0</span>|        4|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       7|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">0</span>|        4|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span></div>
+    </div>
+
+    <h2>13.2 Hasil Skenario B: Horizontal Scaling</h2>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+            <div class="terminal-title">Skenario B: 4 VM Kecil (1 PE) — 8 Cloudlet</div>
+        </div>
+        <div class="terminal-body"><span class="header">                             Skenario B: 4 VM Kecil (1 PE masing-masing)</span>
+
+|Cloudlet| Status|DC|Host|Host PEs |VM|   VM PEs|CloudletLen|FinishedLen|CloudletPEs|StartTime|FinishTime|ExecTime
+|--------|-------|--|----|---------|--|---------|-----------|-----------|-----------|---------|----------|--------
+|       0|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">0</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       4|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">0</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       1|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">1</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       5|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">1</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       2|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">2</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       6|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">2</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       3|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">3</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span>
+|       7|<span class="success">SUCCESS</span>| 2|   0|        8| <span class="warn">3</span>|        1|      10000|      10000|          1|      0.1|      40.1|    <span class="warn">40.0</span></div>
+    </div>
+
+    <h2>13.3 Perbandingan Hasil</h2>
+    <table class="data-table">
+        <tr><th>Aspek</th><th>Vertical (1 VM Besar)</th><th>Horizontal (4 VM Kecil)</th></tr>
+        <tr><td>Total VM</td><td>1</td><td>4</td></tr>
+        <tr><td>PE per VM</td><td>4</td><td>1</td></tr>
+        <tr><td>Total PE</td><td>4</td><td>4</td></tr>
+        <tr><td>ExecTime</td><td>40 detik</td><td>40 detik</td></tr>
+        <tr><td>Distribusi Cloudlet</td><td>Semua di 1 VM</td><td>2 per VM (tersebar)</td></tr>
+        <tr><td>Fault Tolerance</td><td>❌ Single point of failure</td><td>✅ 3 VM lain masih jalan</td></tr>
+        <tr><td>Skalabilitas</td><td>⚠️ Terbatas hardware</td><td>✅ Mudah tambah VM baru</td></tr>
+    </table>
+
+    <div class="info-box purple">
+        <strong>🔍 Kesimpulan Eksperimen:</strong> Dengan total MIPS yang sama, kedua skenario menghasilkan ExecTime yang sama. Namun <strong>horizontal scaling</strong> lebih unggul karena: (1) <strong>Fault-tolerant</strong> — jika 1 VM gagal, yang lain tetap berjalan; (2) <strong>Elastis</strong> — mudah menambah VM baru tanpa downtime; (3) <strong>Sesuai prinsip cloud computing</strong> yang mengutamakan skalabilitas dan ketersediaan.
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== BAB 14: KESIMPULAN ==================== -->
+    <h1 class="section-title" id="bab14"><span class="section-number">14</span> Kesimpulan</h1>
+
+    <h2>14.1 Ringkasan Praktikum</h2>
+    <p>Dalam praktikum ini, telah dilakukan simulasi cloud computing menggunakan CloudSim Plus 8.5 dengan total <strong>11 skenario simulasi</strong> (7 latihan + 3 tugas mandiri + 1 eksperimen tambahan). Semua simulasi berhasil dijalankan dengan status <strong>SUCCESS</strong>.</p>
+
+    <h2>14.2 Konsep yang Dipelajari</h2>
+    <table class="data-table">
+        <tr><th>No</th><th>Latihan</th><th>Konsep Kunci</th></tr>
+        <tr><td>1</td><td>Simulasi Dasar</td><td>Arsitektur dasar: Datacenter → Host → VM → Cloudlet</td></tr>
+        <tr><td>2</td><td>Membandingkan Cloudlet</td><td>Hubungan panjang cloudlet (MI) dengan waktu eksekusi</td></tr>
+        <tr><td>3</td><td>Eksperimen Jumlah VM</td><td>Paralelisme — penambahan VM meningkatkan throughput</td></tr>
+        <tr><td>4</td><td>BasicFirstExample</td><td>Pola kode resmi CloudSim Plus dengan konstanta konfigurasi</td></tr>
+        <tr><td>5</td><td>TimeShared Scheduler</td><td>CPU dibagi rata — semua jalan bersamaan tapi lebih lambat</td></tr>
+        <tr><td>6</td><td>SpaceShared Scheduler</td><td>CPU eksklusif — satu per satu tapi lebih cepat per task</td></tr>
+        <tr><td>7</td><td>Multiple Brokers</td><td>Multi-tenancy — beberapa pelanggan berbagi datacenter</td></tr>
+        <tr><td>T1</td><td>Tambah Host</td><td>VM Placement Policy dan load balancing antar host</td></tr>
+        <tr><td>T2</td><td>TimeShared → SpaceShared</td><td>Perbandingan langsung dua kebijakan penjadwalan</td></tr>
+        <tr><td>T3</td><td>3 Broker × 3 VM</td><td>Multi-tenancy skala besar (9 VM, 9 cloudlet)</td></tr>
+        <tr><td>E1</td><td>Skalabilitas</td><td>Horizontal vs Vertical Scaling</td></tr>
+    </table>
+
+    <h2>14.3 Poin Penting</h2>
+    <div class="info-box blue">
+        <ol style="padding-left:20px;">
+            <li><strong>Virtualisasi</strong> memungkinkan efisiensi penggunaan hardware melalui pembagian resource ke banyak VM.</li>
+            <li><strong>TimeShared</strong> cocok untuk interactive workloads (semua jalan bersamaan), sedangkan <strong>SpaceShared</strong> cocok untuk batch processing (satu per satu, tapi lebih cepat per task).</li>
+            <li><strong>Multi-tenancy</strong> memungkinkan beberapa pelanggan cloud berbagi infrastruktur yang sama dengan isolasi yang terjamin.</li>
+            <li><strong>Horizontal Scaling</strong> lebih diutamakan di cloud computing karena fault-tolerant dan elastis.</li>
+            <li><strong>CloudSim Plus</strong> adalah alat yang efektif untuk mempelajari konsep cloud computing melalui simulasi tanpa memerlukan infrastruktur nyata.</li>
+        </ol>
+    </div>
+
+    <br><br>
+    <div style="text-align:center; color:#94a3b8; font-size:12px; padding:30px 0; border-top: 1px solid #e2e8f0;">
+        <p>Laporan ini dibuat sebagai bagian dari Praktikum ke-9 Mata Kuliah Cloud Computing</p>
+        <p><strong>Efendi Sugiantoro</strong> — 714230018 — D4TI ULBI — Kelas 3A</p>
+        <p>Dosen: M. Yusril Helmi Setyawan, S.Kom., M.Kom.</p>
+        <p style="margin-top:10px;">© 2025 Universitas Logistik dan Bisnis Internasional</p>
+    </div>
+
+</div>
+
+</body>
+</html>
